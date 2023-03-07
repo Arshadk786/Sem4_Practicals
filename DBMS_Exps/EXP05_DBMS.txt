@@ -1,0 +1,148 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+
+		Experiment 05: Perform simple queries, string manipulation operations and aggregate functions.
+
+
+1. WHERE C1 AND C2:
+	mysql> select * from conversion where Amount=10000 AND To_Currency='INR';
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|  10000 | CNY           | INR         |     119476.00000 |
+	+--------+---------------+-------------+------------------+
+	1 row in set (0.02 sec)
+
+2. WHERE C2 OR C2:
+	mysql> select * from conversion where From_Currency='INR' OR From_Currency='CAD';
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     28 | INR           | USD         |         46.00000 |
+	|     28 | CAD           | CAD         |         46.00000 |
+	|     95 | CAD           | INR         |       5690.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|      1 | INR           | USD         |          0.00000 |
+	|     50 | INR           | USD         |          0.00000 |
+	|     50 | INR           | CNY         |          4.00000 |
+	+--------+---------------+-------------+------------------+
+	8 rows in set (0.00 sec)
+
+3. WHERE NOT C1 AND C2:
+	mysql> select * from conversion where NOT From_Currency='INR' AND To_Currency='INR';
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     23 | USD           | INR         |         54.00000 |
+	|     23 | USD           | INR         |         54.00000 |
+	|     22 | Currency      | INR         |         65.00000 |
+	|  10000 | CNY           | INR         |     119476.00000 |
+	|     78 | EUR           | INR         |       6540.00000 |
+	|     95 | CAD           | INR         |       5690.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	+--------+---------------+-------------+------------------+
+	8 rows in set (0.00 sec)
+
+4. WHERE A IN:
+	mysql> select * from conversion where Amount IN(23,78,95);
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     23 | USD           | INR         |         54.00000 |
+	|     23 | USD           | INR         |         54.00000 |
+	|     78 | EUR           | INR         |       6540.00000 |
+	|     95 | CAD           | INR         |       5690.00000 |
+	+--------+---------------+-------------+------------------+
+	4 rows in set (0.00 sec)
+
+5. WHERE A OPERATOR ANY:
+	mysql> select * from conversion where Converted_Amount > 50;
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     23 | USD           | INR         |         54.00000 |
+	|     23 | USD           | INR         |         54.00000 |
+	|     22 | Currency      | INR         |         65.00000 |
+	|    100 | USD           | CAD         |        128.00000 |
+	|  10000 | CNY           | INR         |     119476.00000 |
+	|     78 | EUR           | INR         |       6540.00000 |
+	|     95 | CAD           | INR         |       5690.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|    151 | CNY           | DKK         |        160.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	+--------+---------------+-------------+------------------+
+	10 rows in set (0.00 sec)
+
+6. WHERE A LIKE X:
+	mysql> select * from conversion where From_Currency LIKE 'EUR';
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     78 | EUR           | INR         |       6540.00000 |
+	+--------+---------------+-------------+------------------+
+	1 row in set (0.00 sec)
+
+7. WHERE A BETWEEN X AND Y:
+	mysql> select * from conversion where Amount BETWEEN 100 AND 500;
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|    100 | USD           | CAD         |        128.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|    151 | CNY           | DKK         |        160.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	+--------+---------------+-------------+------------------+
+	4 rows in set (0.00 sec)
+
+8. WHERE A IS NULL:
+	mysql> select * from conversion where Amount is null;
+	Empty set (0.00 sec)
+
+9. AGGREGATE FUNCTIONS:
+	A. COUNT():
+		mysql> select count(Amount) from conversion;
+		+---------------+
+		| count(Amount) |
+		+---------------+
+		|            15 |
+		+---------------+
+		1 row in set (0.00 sec)
+	
+	B.MIN():
+		mysql> select MIN(Amount) from conversion;
+		+-------------+
+		| MIN(Amount) |
+		+-------------+
+		|           1 |
+		+-------------+
+		1 row in set (0.00 sec)
+
+	C.MAX():
+		mysql> select MAX(Amount) from conversion;
+		+-------------+
+		| MAX(Amount) |
+		+-------------+
+		|       10000 |
+		+-------------+
+		1 row in set (0.00 sec)
+
+	D.SUM():
+		mysql> select SUM(Amount) from conversion;
+		+-------------+
+		| SUM(Amount) |
+		+-------------+
+		|       11049 |
+		+-------------+
+		1 row in set (0.00 sec)
+
+	E.AVG():
+		mysql> select AVG(Amount) from conversion;
+		+-------------+
+		| AVG(Amount) |
+		+-------------+
+		|    736.6000 |
+		+-------------+
+		1 row in set (0.00 sec)

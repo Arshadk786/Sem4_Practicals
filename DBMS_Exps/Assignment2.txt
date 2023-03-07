@@ -1,0 +1,196 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+
+			Assignment 02 :  Demonstrate JDBC Connectivity
+
+
+import java.sql.*;
+
+/**
+ * App
+ */
+public class Lesson1 {
+
+    public static void main(String[] args) {
+        String database_name = "studentdb";
+        String url = "jdbc:mysql://localhost:3306/" + database_name;
+        String username = "root";
+        String password = "";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(url, username, password);
+            System.out.println("Connection successful");
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Connection failed");
+        }
+    }
+}
+
+public class Lesson2 {
+
+    public static void main(String[] args) {
+
+        String database_name = "studentdb";
+        String url = "jdbc:mysql://localhost:3306/" + database_name;
+        String username = "root";
+        String password = "";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            System.out.println("Connection successful");
+
+            String sql = "INSERT INTO Users (username, password, fullname, email) VALUES (?, ?, ?, ?)";
+
+            PreparedStatement statement = connection.prepareStatement(
+                    sql);
+            statement.setString(1, "Hamdan");
+            statement.setString(2, "password");
+            statement.setString(3, "Hamdan Ansari");
+            statement.setString(4, "hamdan@gmail.com");
+
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new user was inserted successfully!");
+            }
+
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Connection failed");
+        }
+
+    }
+
+}
+
+public class Lesson3 {
+
+    public static void main(String[] args) {
+        
+        String database_name = "studentdb";
+        String url = "jdbc:mysql://localhost:3306/" + database_name;
+        String username = "root";
+        String password = "";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            System.out.println("Connection successful");
+
+
+            String sql = "SELECT * FROM users";
+
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            int count = 0;
+
+            while (result.next()) {
+                String name = result.getString(2);
+                String pass = result.getString(3);
+                String fullname = result.getString("fullname");
+                String email = result.getString("email");
+
+                String output = "User #%d: %s - %s - %s - %s";
+                System.out.println(String.format(output, ++count, name, pass, fullname, email));
+            }
+
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Connection failed");
+        }
+
+
+
+    }
+    
+}
+
+public class Lesson4 {
+
+    public static void main(String[] args) {
+
+        String database_name = "studentdb";
+        String url = "jdbc:mysql://localhost:3306/" + database_name;
+        String username = "root";
+        String password = "";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            System.out.println("Connection successful");
+
+            String sql = "UPDATE Users SET password=?, fullname=?, email=? WHERE username=?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "123456789");
+            statement.setString(2, "John Wick");
+            statement.setString(3, "John@gmail.com");
+            statement.setString(4, "Hamdan");
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("An existing user was updated successfully!");
+            }
+
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Connection failed");
+        }
+
+    }
+
+}
+
+public class Lesson5 {
+
+    public static void main(String[] args) {
+
+        String database_name = "studentdb";
+        String url = "jdbc:mysql://localhost:3306/" + database_name;
+        String username = "root";
+        String password = "";
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            System.out.println("Connection successful");
+
+            String sql = "DELETE FROM Users WHERE username=?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "Henry");
+
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("A user was deleted successfully!");
+            }
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Connection failed");
+        }
+
+    }
+
+}

@@ -1,0 +1,257 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+
+						Experiment 10: Implementation of Views and Triggers.
+
+mysql> use org
+	Database changed
+
+mysql> create view bestworkers(worker_id, first_name,last_name,salary,bonus_amount,bonus_date)
+    	-> as select worker_id,first_name,last_name,salary,bonus_amount,bonus_date
+    	-> from worker,bonus
+    	-> where worker_id = worker_ref_id;
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from bestworkers;
+	+-----------+------------+-----------+--------+--------------+---------------------+
+	| worker_id | first_name | last_name | salary | bonus_amount | bonus_date          |
+	+-----------+------------+-----------+--------+--------------+---------------------+
+	|         1 | Monika     | Arora     |      0 |         4500 | 2016-02-20 00:00:00 |
+	|         1 | Monika     | Arora     |      0 |         5000 | 2016-02-20 00:00:00 |
+	|         2 | Niharika   | Verma     |  80000 |         3500 | 2016-06-11 00:00:00 |
+	|         2 | Niharika   | Verma     |  80000 |         3000 | 2016-06-11 00:00:00 |
+	|         3 | Vishal     | Singhal   | 300000 |         4000 | 2016-02-20 00:00:00 |
+	+-----------+------------+-----------+--------+--------------+---------------------+
+	5 rows in set (0.01 sec)
+	
+mysql> show tables;
+	+---------------+
+	| Tables_in_org |	
+	+---------------+
+	| bestworker    |
+	| bestworkerfeb |
+	| bestworkers   |
+	| bonus         |
+	| log           |
+	| title         |
+	| worker        |
+	+---------------+
+	7 rows in set (0.02 sec)
+
+mysql> select * from bestworkerfeb;
+	+-----------+------------+-----------+--------+--------------+---------------------+
+	| WORKER_ID | FIRST_NAME | LAST_NAME | SALARY | BONUS_AMOUNT | BONUS_DATE          |
+	+-----------+------------+-----------+--------+--------------+---------------------+
+	|         1 | Monika     | Arora     |      0 |         5000 | 2016-02-20 00:00:00 |
+	|         3 | Vishal     | Singhal   | 300000 |         4000 | 2016-02-20 00:00:00 |
+	|         1 | Monika     | Arora     |      0 |         4500 | 2016-02-20 00:00:00 |
+	+-----------+------------+-----------+--------+--------------+---------------------+
+	3 rows in set (0.00 sec)
+
+mysql> use odimatch;
+	ERROR 1049 (42000): Unknown database 'odimatch'
+	mysql> show databases;
+	+-------------------------+
+	| Database                |
+	+-------------------------+
+	| courier                 |
+	| courier_tracking_system |
+	| covidinfo               |
+	| firstdb                 |
+	| information_schema      |
+	| mysql                   |
+	| org                     |
+	| performance_schema      |
+	| student                 |
+	| sys                     |
+	+-------------------------+
+	10 rows in set (0.01 sec)
+
+mysql> create database odimatch;
+	Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
+	+-------------------------+
+	| Database                |
+	+-------------------------+
+	| courier                 |
+	| courier_tracking_system |
+	| covidinfo               |
+	| firstdb                 |
+	| information_schema      |
+	| mysql                   |
+	| odimatch                |
+	| org                     |
+	| performance_schema      |
+	| student                 |
+	| sys                     |
+	+-------------------------+
+	11 rows in set (0.00 sec)
+
+mysql> delimiter .
+mysql> show tables.
+	+---------------+
+	| Tables_in_org |
+	+---------------+
+	| bestworker    |
+	| bestworkerfeb |
+	| bestworkers   |
+	| bonus         |
+	| log           |
+	| title         |
+	| worker        |
+	+---------------+
+	7 rows in set (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> show tables;
+	+---------------+
+	| Tables_in_org |
+	+---------------+
+	| bestworker    |
+	| bestworkerfeb |
+	| bestworkers   |
+	| bonus         |	
+	| log           |
+	| title         |
+	| worker        |
+	+---------------+
+	7 rows in set (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> use org.
+	Database changed
+
+mysql> create table logs(worker_ID int(4), SalaryChange bigint(10), SDate Timestamp);
+    -> .
+	Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+mysql> delimiter ;
+mysql> desc logs ;
+	+--------------+-----------+------+-----+---------+-------+
+	| Field        | Type      | Null | Key | Default | Extra |
+	+--------------+-----------+------+-----+---------+-------+
+	| worker_ID    | int       | YES  |     | NULL    |       |	
+	| SalaryChange | bigint    | YES  |     | NULL    |       |
+	| SDate        | timestamp | YES  |     | NULL    |       |
+	+--------------+-----------+------+-----+---------+-------+
+	3 rows in set (0.02 sec)
+
+mysql> show triggers;
+	+--------------+--------+--------+--------------------------------------------------------------------------------+--------+------------------------+-----------------------+----------------+----------------------+----------------------+--------------------+
+	| Trigger      | Event  | Table  | Statement                                                                      | Timing | Created                | sql_mode              | Definer        | character_set_client | collation_connection | Database Collation |
+	+--------------+--------+--------+--------------------------------------------------------------------------------+--------+------------------------+-----------------------+----------------+----------------------+----------------------+--------------------+
+	| BEFOREINSERT | INSERT | worker | BEGIN
+	INSERT INTO LOG VALUES (NEW.WORKER_ID, NEW.SALARY, NOW(), 'INSERT');
+	END | BEFORE | 2022-04-05 10:38:54.95 | NO_AUTO_VALUE_ON_ZERO | root@localhost | utf8mb4              | utf8mb4_general_ci   | utf8mb4_0900_ai_ci |
+	| SALARYUPDATE | UPDATE | worker | INSERT INTO LOG VALUES (OLD.WORKER_ID, NEW.SALARY, NOW() )                     | AFTER  | 2022-04-05 10:38:54.96 | NO_AUTO_VALUE_ON_ZERO | root@localhost | utf8mb4              | utf8mb4_general_ci   | utf8mb4_0900_ai_ci |
+	| DELETEEMP    | DELETE | worker | BEGIN
+	INSERT INTO LOG VALUES (OLD.WORKER_ID, OLD.SALARY, NOW(), 'DELETE');
+	END | BEFORE | 2022-04-05 10:38:54.98 | NO_AUTO_VALUE_ON_ZERO | root@localhost | utf8mb4              | utf8mb4_general_ci   | utf8mb4_0900_ai_ci |
+	+--------------+--------+--------+--------------------------------------------------------------------------------+--------+------------------------+-----------------------+----------------+----------------------+----------------------+--------------------+
+	3 rows in set (0.02 sec)
+
+mysql> drop trigger beforeinsert;
+	Query OK, 0 rows affected (0.03 sec)
+
+mysql> drop trigger deletemp;
+	ERROR 1360 (HY000): Trigger does not exist
+mysql> drop trigger deleteemp;
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> drop trigger salaryupdate;
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> create trigger salaryupdate after update on worker for each row insert into logs values(old.worker_ID,new.salary,now());
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> show triggers;
+	+--------------+--------+--------+---------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	| Trigger      | Event  | Table  | Statement                                               | Timing | Created                | sql_mode                                   | Definer        | character_set_client | collation_connection | Database Collation |
+	+--------------+--------+--------+---------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	| salaryupdate | UPDATE | worker | insert into logs values(old.worker_ID,new.salary,now()) | AFTER  | 2022-04-05 11:37:46.52 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+	+--------------+--------+--------+---------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	1 row in set (0.01 sec)
+
+mysql> update worker set salary=9899 where worker_ID=6;
+	Query OK, 1 row affected (0.01 sec)
+	Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from logs ;
+	+-----------+--------------+---------------------+
+	| worker_ID | SalaryChange | SDate               |
+	+-----------+--------------+---------------------+
+	|         6 |         9899 | 2022-04-05 11:39:54 |
+	+-----------+--------------+---------------------+
+	1 row in set (0.00 sec)
+
+mysql> alter table logs add action varchar(10);
+	Query OK, 0 rows affected (0.04 sec)
+	Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc logs;
+	+--------------+-------------+------+-----+---------+-------+
+	| Field        | Type        | Null | Key | Default | Extra |
+	+--------------+-------------+------+-----+---------+-------+
+	| worker_ID    | int         | YES  |     | NULL    |       |
+	| SalaryChange | bigint      | YES  |     | NULL    |       |
+	| SDate        | timestamp   | YES  |     | NULL    |       |
+	| action       | varchar(10) | YES  |     | NULL    |       |
+	+--------------+-------------+------+-----+---------+-------+
+	4 rows in set (0.01 sec)
+
+mysql> SHOW triggers;
+	+--------------+--------+--------+---------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	| Trigger      | Event  | Table  | Statement                                               | Timing | Created                | sql_mode                                   | Definer        | character_set_client | collation_connection | Database Collation |
+	+--------------+--------+--------+---------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	| salaryupdate | UPDATE | worker | insert into logs values(old.worker_ID,new.salary,now()) | AFTER  | 2022-04-05 11:37:46.52 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+	+--------------+--------+--------+---------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	1 row in set (0.01 sec)
+
+mysql> SHOW TABLES;
+	+---------------+
+	| Tables_in_org |
+	+---------------+
+	| bestworker    |
+	| bestworkerfeb |
+	| bestworkers   |
+	| bonus         |
+	| log           |
+	| logs          |
+	| title         |
+	| worker        |
+	+---------------+
+	8 rows in set (0.01 sec)
+
+mysql> CREATE TRIGGER BEFOREINSERT BEFORE INSERT ON WORKER FOR EACH ROW  INSERT INTO LOGS VALUES (NEW.WORKER.ID,NEW.SALARY,NOW(),'INSERT') ;END;
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW triggers;
+	+--------------+--------+--------+-------------------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	| Trigger      | Event  | Table  | Statement                                                         | Timing | Created                | sql_mode                                   | Definer        | character_set_client | collation_connection | Database Collation |
+	+--------------+--------+--------+-------------------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	| BEFOREINSERT | INSERT | worker | INSERT INTO LOGS VALUES (NEW.WORKER.ID,NEW.SALARY,NOW(),'INSERT') | BEFORE | 2022-04-05 11:55:25.20 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+	| salaryupdate | UPDATE | worker | insert into logs values(old.worker_ID,new.salary,now())           | AFTER  | 2022-04-05 11:37:46.52 | STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION | root@localhost | cp850                | cp850_general_ci     | utf8mb4_0900_ai_ci |
+	+--------------+--------+--------+-------------------------------------------------------------------+--------+------------------------+--------------------------------------------+----------------+----------------------+----------------------+--------------------+
+	2 rows in set (0.01 sec)
+	
+mysql> SELECT * FROM LOGS;
+	+-----------+--------------+---------------------+--------+
+	| worker_ID | SalaryChange | SDate               | action |
+	+-----------+--------------+---------------------+--------+
+	|         6 |         9899 | 2022-04-05 11:39:54 | NULL   |
+	+-----------+--------------+---------------------+--------+
+	1 row in set (0.01 sec)
+
+	ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END' at line 1
+mysql> drop trigger beforeinsert;
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TRIGGER BEFOREINSERT BEFORE INSERT ON WORKER FOR EACH ROW  INSERT INTO LOGS VALUES (NEW.WORKER_ID,NEW.SALARY,NOW(),'INSERT') ;END;
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into worker values (9,'farhan','Firoz',545454,'2020-02-20 09:00:00','HR');
+	Query OK, 1 row affected (0.01 sec)

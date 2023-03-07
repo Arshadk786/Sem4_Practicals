@@ -1,0 +1,172 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+				Experiment 08: 	Perform DCL and TCL Commands.
+
+
+1.DCL Commands:
+	A.Create User:
+		mysql> create user 'Arshad'@'localhost' identified by ' ';
+		Query OK, 0 rows affected (0.14 sec)
+
+		C:\Users\arsha>mysql -u Tayyab -p
+ 		Enter password: *
+		Welcome to the MySQL monitor.  Commands end with ; or \g.
+		Your MySQL connection id is 11
+		Server version: 8.0.28 MySQL Community Server - GPL
+
+		Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+		Oracle is a registered trademark of Oracle Corporation and/or its
+		affiliates. Other names may be trademarks of their respective
+		owners.
+
+		Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+		mysql>
+	B.Grant:
+		mysql> grant select
+    		-> on currencyrates
+    		-> to 'Arshad'@'localhost';
+		Query OK, 0 rows affected (0.23 sec)
+
+		mysql> show databases;
+		+--------------------+
+		| Database           |
+		+--------------------+
+		| currencyconverter  |
+		| information_schema |
+		+--------------------+
+		2 rows in set (0.20 sec)
+
+		mysql> use currencyconverter;
+		Database changed
+		mysql> show tables;
+		+-----------------------------+
+		| Tables_in_currencyconverter |
+		+-----------------------------+
+		| currencyrates               |
+		+-----------------------------+
+		1 row in set (0.05 sec)
+
+		mysql> select * from currencyrates;
+		+------+----------------------+--------+----------+--------+
+		| INR  | Currency_Name        | Symbol | Value    | RollNo |
+		+------+----------------------+--------+----------+--------+
+		|    1 | United States Dollar | USD    | 75.90800 |   NULL |
+		|    1 | Canadian Dollar      | CAD    | 60.81200 |   NULL |
+		|    1 | Australian Dollar    | AUD    | 56.90800 |   NULL |
+		|    1 | Singapore Dollar     | SGD    | 56.04300 |   NULL |
+		|    1 | Japanese Yen         | JPY    |  0.62449 |   NULL |
+		|    1 | Chinese              | CNY    | 11.97400 |   NULL |
+		|    1 | Euro                 | EUR    | 84.13300 |   NULL |
+		|    1 | British Pound        | GBP    | 99.74600 |   NULL |
+		|    1 | Swiss Franc          | CHF    | 82.36400 |   NULL |
+		+------+----------------------+--------+----------+--------+
+		9 rows in set (0.04 sec)
+
+		mysql> insert into currencyrates values(1,'United States Dollar','USD',75.90800,'20CO24');
+		ERROR 1142 (42000): INSERT command denied to user 'Arshad'@'localhost' for table 'currencyrates'
+
+	C.Revoke:
+		mysql> revoke select
+    		-> on currencyrates
+    		-> from 'Arshad'@'localhost';
+		Query OK, 0 rows affected (0.12 sec)
+
+		mysql> select * from currencyrates;
+		ERROR 1142 (42000): SELECT command denied to user 'Arshad'@'localhost' for table 'currencyrates'
+
+2.TCL Commands:
+
+	A.Commit:
+		mysql> commit;
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql> insert into currencyrates(INR,Currency_Name,Symbol,Value) values(1,'Malaysian Ringgit','MYR',0.055429);
+		Query OK, 1 row affected, 1 warning (0.04 sec)
+
+		mysql> select * from currencyrates;
+		+------+----------------------+--------+----------+--------+
+		| INR  | Currency_Name        | Symbol | Value    | RollNo |
+		+------+----------------------+--------+----------+--------+
+		|    1 | Canadian Dollar      | CAD    | 60.81200 |   NULL |
+		|    1 | Australian Dollar    | AUD    | 56.90800 |   NULL |
+		|    1 | Singapore Dollar     | SGD    | 56.04300 |   NULL |
+		|    1 | Japanese Yen         | JPY    |  0.62449 |   NULL |
+		|    1 | Chinese              | CNY    | 11.97400 |   NULL |
+		|    1 | Euro                 | EUR    | 84.13300 |   NULL |
+		|    1 | British Pound        | GBP    | 99.74600 |   NULL |
+		|    1 | Swiss Franc          | CHF    | 82.36400 |   NULL |
+		|    1 | United States Dollar | USD    | 75.90800 |   NULL |
+		|    1 | Malaysian Ringgit    | MYR    |  0.05543 |   NULL |
+		+------+----------------------+--------+----------+--------+
+		10 rows in set (0.00 sec)
+
+	B.Rollback:
+		mysql> rollback;
+		Query OK, 0 rows affected (0.05 sec)
+
+		mysql> select * from currencyrates;
+		+------+----------------------+--------+----------+--------+
+		| INR  | Currency_Name        | Symbol | Value    | RollNo |
+		+------+----------------------+--------+----------+--------+
+		|    1 | Canadian Dollar      | CAD    | 60.81200 |   NULL |
+		|    1 | Australian Dollar    | AUD    | 56.90800 |   NULL |
+		|    1 | Singapore Dollar     | SGD    | 56.04300 |   NULL |
+		|    1 | Japanese Yen         | JPY    |  0.62449 |   NULL |
+		|    1 | Chinese              | CNY    | 11.97400 |   NULL |
+		|    1 | Euro                 | EUR    | 84.13300 |   NULL |
+		|    1 | British Pound        | GBP    | 99.74600 |   NULL |
+		|    1 | Swiss Franc          | CHF    | 82.36400 |   NULL |
+		|    1 | United States Dollar | USD    | 75.90800 |   NULL |
+		+------+----------------------+--------+----------+--------+
+		9 rows in set (0.04 sec)
+
+	C.Savepoint:
+		mysql> savepoint a;
+		Query OK, 0 rows affected (0.00 sec)
+
+		mysql> insert into currencyrates(INR,Currency_Name,Symbol,Value) values(1,'Bahraini Dinar','BD',0.0050);
+		Query OK, 1 row affected (0.01 sec)
+
+		mysql> select * from currencyrates;
+		+------+----------------------+--------+----------+--------+
+		| INR  | Currency_Name        | Symbol | Value    | RollNo |
+		+------+----------------------+--------+----------+--------+
+		|    1 | Canadian Dollar      | CAD    | 60.81200 |   NULL |
+		|    1 | Australian Dollar    | AUD    | 56.90800 |   NULL |
+		|    1 | Singapore Dollar     | SGD    | 56.04300 |   NULL |
+		|    1 | Japanese Yen         | JPY    |  0.62449 |   NULL |
+		|    1 | Chinese              | CNY    | 11.97400 |   NULL |
+		|    1 | Euro                 | EUR    | 84.13300 |   NULL |
+		|    1 | British Pound        | GBP    | 99.74600 |   NULL |
+		|    1 | Swiss Franc          | CHF    | 82.36400 |   NULL |
+		|    1 | United States Dollar | USD    | 75.90800 |   NULL |
+		|    1 | Malaysian Ringgit    | MYR    |  0.05543 |   NULL |
+		|    1 | Bahraini Dinar       | BD     |  0.00500 |   NULL |
+		+------+----------------------+--------+----------+--------+
+		11 rows in set (0.00 sec)
+
+		mysql> rollback to a;
+		Query OK, 0 rows affected (0.03 sec)
+
+		mysql> select * from currencyrates;
+		+------+----------------------+--------+----------+--------+
+		| INR  | Currency_Name        | Symbol | Value    | RollNo |
+		+------+----------------------+--------+----------+--------+
+		|    1 | Canadian Dollar      | CAD    | 60.81200 |   NULL |
+		|    1 | Australian Dollar    | AUD    | 56.90800 |   NULL |
+		|    1 | Singapore Dollar     | SGD    | 56.04300 |   NULL |
+		|    1 | Japanese Yen         | JPY    |  0.62449 |   NULL |
+		|    1 | Chinese              | CNY    | 11.97400 |   NULL |
+		|    1 | Euro                 | EUR    | 84.13300 |   NULL |
+		|    1 | British Pound        | GBP    | 99.74600 |   NULL |
+		|    1 | Swiss Franc          | CHF    | 82.36400 |   NULL |
+		|    1 | United States Dollar | USD    | 75.90800 |   NULL |
+		|    1 | Malaysian Ringgit    | MYR    |  0.05543 |   NULL |
+		+------+----------------------+--------+----------+--------+
+		10 rows in set (0.03 sec)
+		
+
+

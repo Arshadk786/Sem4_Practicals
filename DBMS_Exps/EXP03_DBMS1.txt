@@ -1,0 +1,98 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+				Experiment 03: Apply DDL commands for the specified system.
+
+1. CREATE:
+	A. CREATE DATABASE:
+	mysql> create database currencyconverter;
+	Query OK, 1 row affected (0.11 sec)
+
+	mysql> show databases;
+	+--------------------+	
+	| Database           |
+	+--------------------+
+	| bank               |
+	| cricket            |
+	| currencyconverter  |
+	| information_schema |
+	| mysql              |
+	| performance_schema |
+	| sakila             |
+	| sys                |
+	| world              |
+	+--------------------+
+	9 rows in set (0.08 sec)
+	
+	B. CREATE TABLE:
+	mysql> create table conversion(amount int(20),From_Currency varchar(10),To_Currency varchar(10),Converted_Amount decimal(20,5));
+	Query OK, 0 rows affected, 1 warning (4.86 sec)
+
+	mysql> desc conversion;
+	+------------------+---------------+------+-----+---------+-------+
+	| Field            | Type          | Null | Key | Default | Extra |
+	+------------------+---------------+------+-----+---------+-------+
+	| amount           | int           | YES  |     | NULL    |       |
+	| From_Currency    | varchar(10)   | YES  |     | NULL    |       |
+	| To_Currency      | varchar(10)   | YES  |     | NULL    |       |
+	| Converted_Amount | decimal(20,5) | YES  |     | NULL    |       |
+	+------------------+---------------+------+-----+---------+-------+
+	4 rows in set (0.65 sec)
+
+	
+2. ALTER:
+	mysql> alter table conversion modify Converted_Amount int(20);
+	Query OK, 0 rows affected, 1 warning (10.53 sec)
+	Records: 0  Duplicates: 0  Warnings: 1
+
+	mysql> desc conversion;
+	+------------------+-------------+------+-----+---------+-------+
+	| Field            | Type        | Null | Key | Default | Extra |
+	+------------------+-------------+------+-----+---------+-------+
+	| amount           | int         | YES  |     | NULL    |       |
+	| From_Currency    | varchar(10) | YES  |     | NULL    |       |
+	| To_Currency      | varchar(10) | YES  |     | NULL    |       |
+	| Converted_Amount | int         | YES  |     | NULL    |       |
+	+------------------+-------------+------+-----+---------+-------+
+	4 rows in set (1.77 sec)
+
+
+3. RENAME:
+	mysql> rename table conversion to CurrencyRates;
+	Query OK, 0 rows affected (1.39 sec)
+
+	mysql> desc currencyrates;
+	+------------------+-------------+------+-----+---------+-------+
+	| Field            | Type        | Null | Key | Default | Extra |
+	+------------------+-------------+------+-----+---------+-------+
+	| amount           | int         | YES  |     | NULL    |       |
+	| From_Currency    | varchar(10) | YES  |     | NULL    |       |
+	| To_Currency      | varchar(10) | YES  |     | NULL    |       |
+	| Converted_Amount | int         | YES  |     | NULL    |       |
+	+------------------+-------------+------+-----+---------+-------+
+	4 rows in set (0.05 sec)
+
+	mysql> select * from currencyrates;
+	Empty set (0.09 sec)
+
+4. TRUNCATE:
+	mysql> truncate currencyrates;
+	Query OK, 0 rows affected (5.64 sec)
+
+	mysql> desc currencyrates;
+	+------------------+-------------+------+-----+---------+-------+
+	| Field            | Type        | Null | Key | Default | Extra |
+	+------------------+-------------+------+-----+---------+-------+
+	| amount           | int         | YES  |     | NULL    |       |
+	| From_Currency    | varchar(10) | YES  |     | NULL    |       |	
+	| To_Currency      | varchar(10) | YES  |     | NULL    |       |
+	| Converted_Amount | int         | YES  |     | NULL    |       |
+	+------------------+-------------+------+-----+---------+-------+
+	4 rows in set (0.53 sec)
+
+5. DROP:
+	mysql> drop table currencyrates;
+	Query OK, 0 rows affected (1.95 sec)
+
+	mysql> show tables;
+	Empty set (0.09 sec)

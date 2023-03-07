@@ -1,0 +1,50 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+				Experiment 06: Implement various Join Operations.
+
+1.mysql> select * from currencyrates,conversion where RollNo = RNo AND RollNo = '20CO24';
+	+--------+-------------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	| Amount | Currency_Name     | Symbol | Value_In_INR | RollNo | Amount | From_Currency | To_Currency | Converted_Amount | RNo    |
+	+--------+-------------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	|      1 | Malaysian Ringgit | MYR    |     17.87410 | 20CO24 |    100 | INR           | USD         |         50.56560 | 20CO24 |
+	+--------+-------------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	1 row in set (0.06 sec)
+
+2.mysql> select * from conversion,currencyrates where RNo=RollNo AND To_Currency = 'DKK';
+	+--------+---------------+-------------+------------------+--------+--------+---------------+--------+--------------+--------+
+	| Amount | From_Currency | To_Currency | Converted_Amount | RNo    | Amount | Currency_Name | Symbol | Value_In_INR | RollNo |
+	+--------+---------------+-------------+------------------+--------+--------+---------------+--------+--------------+--------+
+	|      1 | INR           | DKK         |          0.53340 | 20CO17 |      1 | Chinese Yuan  | CYN    |     11.83360 | 20CO17 |
+	|      1 | CYN           | DKK         |          6.43230 | 20CO42 |      1 | Euro          | EUR    |     82.55700 | 20CO42 |
+	+--------+---------------+-------------+------------------+--------+--------+---------------+--------+--------------+--------+
+	2 rows in set (0.00 sec)
+
+3.mysql> select *  from conversion,users where RollNo=RollNo AND username = 'arshadk786';
+	+--------+---------------+-------------+------------------+--------+--------+-------+------------+--------+
+	| Amount | From_Currency | To_Currency | Converted_Amount | RNo    | Fname  | Lname | Username   | rollno |
+	+--------+---------------+-------------+------------------+--------+--------+-------+------------+--------+
+	|    100 | INR           | USD         |         50.56560 | 20CO24 | Arshad | Khan  | arshadk786 | 20CO24 |
+	|     23 | USD           | EUR         |         20.23400 | 20CO29 | Arshad | Khan  | arshadk786 | 20CO24 |
+	|     10 | DKK           | EUR         |          7.98980 | 20CO37 | Arshad | Khan  | arshadk786 | 20CO24 |
+	|     78 | CYN           | INR         |         97.34520 | 20CO15 | Arshad | Khan  | arshadk786 | 20CO24 |
+	|      1 | CYN           | DKK         |          6.43230 | 20CO42 | Arshad | Khan  | arshadk786 | 20CO24 |
+	|      1 | INR           | DKK         |          0.53340 | 20CO17 | Arshad | Khan  | arshadk786 | 20CO24 |
+	+--------+---------------+-------------+------------------+--------+--------+-------+------------+--------+
+	6 rows in set (0.00 sec)
+
+4.mysql> select * from currencyrates,conversion where RollNo=RNo AND Currency_Name = 'Chinese Yuan';
+	+--------+---------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	| Amount | Currency_Name | Symbol | Value_In_INR | RollNo | Amount | From_Currency | To_Currency | Converted_Amount | RNo    |
+	+--------+---------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	|      1 | Chinese Yuan  | CYN    |     11.83360 | 20CO17 |      1 | INR           | DKK         |          0.53340 | 20CO17 |
+	+--------+---------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	1 row in set (0.04 sec)
+
+5.mysql> select * from currencyrates,conversion where RollNo=RNo AND Currency_Name = 'Euro';
+	+--------+---------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	| Amount | Currency_Name | Symbol | Value_In_INR | RollNo | Amount | From_Currency | To_Currency | Converted_Amount | RNo    |
+	+--------+---------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	|      1 | Euro          | EUR    |     82.55700 | 20CO42 |      1 | CYN           | DKK         |          6.43230 | 20CO42 |
+	+--------+---------------+--------+--------------+--------+--------+---------------+-------------+------------------+--------+
+	1 row in set (0.00 sec)

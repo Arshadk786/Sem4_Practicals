@@ -1,0 +1,52 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+				Experiment 07: Perform nested and complex queries.
+
+1.mysql> select * from conversion where Rollno IN (select RollNo from currencyrates where currency_name = 'Bangladeshi Taka');
+	+--------+---------------+-------------+------------------+--------+
+	| Amount | From_Currency | To_Currency | Converted_Amount | RollNo |
+	+--------+---------------+-------------+------------------+--------+
+	|     23 | USD           | EUR         |         20.23400 | 20CO29 |
+	+--------+---------------+-------------+------------------+--------+
+	1 row in set (0.07 sec)
+
+2.mysql> select * from currencyrates where RollNo IN (select RollNo from conversion where amount = 10);
+	+--------+---------------+--------+--------------+--------+
+	| Amount | Currency_Name | Symbol | Value_In_INR | RollNo |
+	+--------+---------------+--------+--------------+--------+
+	|      1 | Japanese Yen  | JPY    |      0.61291 | 20CO37 |
+	+--------+---------------+--------+--------------+--------+
+	1 row in set (0.04 sec)
+
+3.mysql> select * from currencyrates where RollNo IN (select RollNo from conversion where To_Currency = 'USD' AND amount = 100);
+	+--------+-------------------+--------+--------------+--------+
+	| Amount | Currency_Name     | Symbol | Value_In_INR | RollNo |
+	+--------+-------------------+--------+--------------+--------+
+	|      1 | Malaysian Ringgit | MYR    |     17.87410 | 20CO24 |
+	+--------+-------------------+--------+--------------+--------+
+	1 row in set (0.00 sec)
+
+4.mysql> select Amount from conversion where RollNo IN (select Rollno from currencyrates where symbol = 'EUR');
+	+--------+
+	| Amount |
+	+--------+
+	|      1 |
+	+--------+
+	1 row in set (0.00 sec)
+
+5.mysql> select * from currencyrates where RollNo IN (select RollNo from conversion where amount = 1 AND From_Currency = 'INR');
+	+--------+---------------+--------+--------------+--------+
+	| Amount | Currency_Name | Symbol | Value_In_INR | RollNo |
+	+--------+---------------+--------+--------------+--------+
+	|      1 | Chinese Yuan  | CYN    |     11.83360 | 20CO17 |
+	+--------+---------------+--------+--------------+--------+
+	1 row in set (0.00 sec)
+
+6.mysql> select * from users where RollNo IN (select RollNO from conversion where Amount = 100);
+	+--------+-------+------------+--------+
+	| Fname  | Lname | Username   | rollno |
+	+--------+-------+------------+--------+
+	| Arshad | Khan  | arshadk786 | 20CO24 |
+	+--------+-------+------------+--------+
+	1 row in set (0.04 sec)

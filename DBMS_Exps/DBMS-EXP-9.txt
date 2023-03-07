@@ -1,0 +1,136 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+
+					Experiment 09 : Implement procedure and functions
+
+mysql> use odimatch;
+	Database changed
+mysql> delimiter :
+mysql> create procedure get_players()
+    -> begin
+    -> select playerid, fname, lname, nruns, fours, six
+    -> from player,batting
+    -> where player.playerid=batting.pid;
+    -> end
+    -> :
+	Query OK, 0 rows affected (0.05 sec)
+
+mysql> call get_players();
+    -> :
+	+----------+-----------+------------+-------+-------+------+
+	| playerid | fname     | lname      | nruns | fours | six  |
+	+----------+-----------+------------+-------+-------+------+
+	|    23001 | Yuvraj    | Singh      |    38 |     2 |    2 |
+	|    25001 | MS        | Dhoni      |    36 |     2 |    1 |
+	|    27001 | Praveen   | Kumar      |     7 |     1 |    0 |
+	|    89001 | Sachin    | Tendulkar  |    91 |     7 |    0 |
+	|    98002 | Harbhajan | Singh      |     3 |     0 |    0 |
+	|    23001 | Yuvraj    | Singh      |     0 |     0 |    0 |
+	|    25001 | MS        | Dhoni      |    71 |     4 |    0 |
+	|    27001 | Praveen   | Kumar      |     2 |     0 |    0 |
+	|    91001 | Sanath    | Jayasuriya |    60 |     8 |    2 |
+	|    94002 | Chaminda  | Vaas       |    17 |     1 |    0 |
+	|    98002 | Harbhajan | Singh      |     2 |     0 |    0 |
+	+----------+-----------+------------+-------+-------+------+
+	11 rows in set (0.02 sec)
+
+	Query OK, 0 rows affected (0.05 sec)
+
+mysql> delimiter :
+
+mysql> create procedure limited_players(in var1 int)
+    -> begin
+    -> select * from player limit var1
+    -> ;
+    -> select count(*) as total_players from player;
+    -> end
+    -> .
+	Query OK, 0 rows affected (0.01 sec)
+
+mysql> call limited_players(5) .
+	+----------+----------+---------------+-----------+-------+------------+-------+
+	| PlayerID | Lname    | Fname         | Country   | YBorn | BPlace     | FTest |
+	+----------+----------+---------------+-----------+-------+------------+-------+
+	|    23001 | Singh    | Yuvraj        | India     |  1981 | Chandigarh |  2003 |
+	|    24001 | Symonds  | Andrew        | Australia |  1976 | Wollongong |  1999 |
+	|    25001 | Dhoni    | MS            | India     |  1981 | Ranchi     |  2005 |
+	|    25002 | Siddiqui | MahefuzRehman | India     |  1996 | Bihar      |  2015 |
+	|    27001 | Kumar    | Praveen       | India     |  1986 | Meerut     |  NULL |
+	+----------+----------+---------------+-----------+-------+------------+-------+
+	5 rows in set (0.00 sec)
+
+	+---------------+
+	| total_players |
+	+---------------+
+	|            24 |
+	+---------------+
+	1 row in set (0.04 sec)
+	
+	Query OK, 0 rows affected (0.05 sec)
+
+mysql> create procedure totalruns()
+    -> begin
+    -> declare totalruns int default 0;
+    -> select sum(nruns) into totalruns from batting;
+    -> select totalruns;
+    -> end
+    -> .
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> call totalruns() .
+	+-----------+
+	| totalruns |
+	+-----------+
+	|       327 |
+	+-----------+
+	1 row in set (0.01 sec)
+
+	Query OK, 0 rows affected (0.03 sec)
+
+mysql> create procedure getruns (out total int)
+    -> begin
+    -> select sum(nruns) into total from batting;
+    -> end
+    -> .
+	Query OK, 0 rows affected (0.02 sec)
+
+mysql> call getruns(@total).
+	Query OK, 1 row affected (0.01 sec)
+
+mysql> call getruns(@total) ;
+	Query OK, 1 row affected (0.00 sec)
+
+mysql> select @total ;
+	+--------+
+	| @total |
+	+--------+
+	|    327 |
+	+--------+
+	1 row in set (0.01 sec)
+
+mysql> set @runs='100';
+	Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter :
+mysql> create procedure topbatsmen(inout runs int)
+    -> begin
+    -> select nruns into runs from batting where nruns=runs;
+    -> end
+    -> :
+	Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> set @runs='100';
+	Query OK, 0 rows affected (0.00 sec)
+
+mysql> call topbatsmen(@runs);
+	Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> select @runs;
+	+-------+
+	| @runs |
+	+-------+
+	|   100 |
+	+-------+
+	1 row in set (0.00 sec)

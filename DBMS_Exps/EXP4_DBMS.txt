@@ -1,0 +1,106 @@
+Name : Khan Arshad Abdulla
+Roll No : 20CO24
+Group No : 16
+				
+				Experiment 04: Apply DML commands for the specified system.
+
+1. INSERT:
+	insert into conversion values(200,'CAD','INR',2000);
+	Query OK, 1 row affected (0.08 sec)
+
+	mysql> select *  from conversion;
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+	
+	|     23 | USD           | INR         |               54 |
+	|     23 | USD           | INR         |               54 |
+	|     22 | Currency      | INR         |               65 |
+	|     28 | INR           | USD         |               46 |
+	|     28 | CAD           | CAD         |               46 |
+	|    100 | USD           | CAD         |              128 |
+	|  10000 | CNY           | INR         |           119476 |
+	|     78 | EUR           | INR         |             6540 |
+	|     95 | CAD           | INR         |             5690 |
+	|    200 | CAD           | INR         |             2000 |
+	+--------+---------------+-------------+------------------+
+	10 rows in set (0.07 sec)
+
+
+	insert into conversion values(200,'CAD','INR',2000),(1,'INR','USD',0),(50,'INR','USD',0);
+	Query OK, 3 rows affected (0.12 sec)
+	Records: 3  Duplicates: 0  Warnings: 0
+
+	mysql> select *  from conversion;
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     23 | USD           | INR         |               54 |
+	|     23 | USD           | INR         |               54 |
+	|     22 | Currency      | INR         |               65 |
+	|     28 | INR           | USD         |               46 |
+	|     28 | CAD           | CAD         |               46 |
+	|    100 | USD           | CAD         |              128 |
+	|  10000 | CNY           | INR         |           119476 |
+	|     78 | EUR           | INR         |             6540 |
+	|     95 | CAD           | INR         |             5690 |
+	|    200 | CAD           | INR         |             2000 |
+	|    151 | CNY           | DKK         |              160 |
+	|    200 | CAD           | INR         |             2000 |
+	|      1 | INR           | USD         |                0 |
+	|     50 | INR           | USD         |                0 |
+	+--------+---------------+-------------+------------------+
+	14 rows in set (0.00 sec)
+
+2. UPDATE:
+	update conversion set converted_amount=657 where amount=55;
+	Query OK, 1 row affected (0.12 sec)
+	Rows matched: 1  Changed: 1  Warnings: 0
+
+	mysql> select *  from conversion;
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     23 | USD           | INR         |         54.00000 |
+	|     23 | USD           | INR         |         54.00000 |
+	|     22 | Currency      | INR         |         65.00000 |
+	|     28 | INR           | USD         |         46.00000 |
+	|     28 | CAD           | CAD         |         46.00000 |
+	|    100 | USD           | CAD         |        128.00000 |
+	|  10000 | CNY           | INR         |     119476.00000 |
+	|     78 | EUR           | INR         |       6540.00000 |
+	|     95 | CAD           | INR         |       5690.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|    151 | CNY           | DKK         |        160.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|      1 | INR           | USD         |          0.00000 |
+	|     50 | INR           | USD         |          0.00000 |
+	|     50 | INR           | CNY         |          4.00000 |
+	|     55 | CNY           | INR         |        657.00000 |
+	+--------+---------------+-------------+------------------+
+	16 rows in set (0.04 sec)
+
+3. DELETE:
+	delete from conversion where converted_amount=657.00000;
+	Query OK, 1 row affected (0.15 sec)
+
+	mysql> select *  from conversion;
+	+--------+---------------+-------------+------------------+
+	| Amount | From_Currency | To_Currency | Converted_Amount |
+	+--------+---------------+-------------+------------------+
+	|     23 | USD           | INR         |         54.00000 |
+	|     23 | USD           | INR         |         54.00000 |
+	|     22 | Currency      | INR         |         65.00000 |
+	|     28 | INR           | USD         |         46.00000 |
+	|     28 | CAD           | CAD         |         46.00000 |
+	|    100 | USD           | CAD         |        128.00000 |
+	|  10000 | CNY           | INR         |     119476.00000 |
+	|     78 | EUR           | INR         |       6540.00000 |
+	|     95 | CAD           | INR         |       5690.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|    151 | CNY           | DKK         |        160.00000 |
+	|    200 | CAD           | INR         |       2000.00000 |
+	|      1 | INR           | USD         |          0.00000 |
+	|     50 | INR           | USD         |          0.00000 |
+	|     50 | INR           | CNY         |          4.00000 |
+	+--------+---------------+-------------+------------------+
+	15 rows in set (0.00 sec)
